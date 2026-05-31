@@ -26,9 +26,8 @@ a{text-decoration:none;color:inherit}
 
 /* HERO */
 .hero{position:relative;height:250px;max-height:250px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity 1.2s ease-in-out}
-.hero-slide.active{opacity:1}
-.hero-slide::after{content:'';position:absolute;inset:0;background:rgba(15,27,45,.65)}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 0.8s ease-in-out}
+.hero::after{content:'';position:absolute;inset:0;background:rgba(15,27,45,.65);z-index:1}
 .hero-content{position:relative;z-index:2;max-width:680px;padding:0 24px;color:var(--white)}
 .hero-content h1{font-size:clamp(1.5rem,4vw,2.25rem);margin-bottom:12px;line-height:1.25}
 .hero-content p{font-size:clamp(.9rem,2vw,1.05rem);opacity:.88;line-height:1.55}
@@ -115,11 +114,7 @@ a{text-decoration:none;color:inherit}
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-slide active" style="background-image:url('img/hero.jpg')" role="img" aria-label="Hero background 1"></div>
-  <div class="hero-slide" style="background-image:url('img/vardy-main.jpg')" role="img" aria-label="Hero background 2"></div>
-  <div class="hero-slide" style="background-image:url('img/kps-matchday.jpg')" role="img" aria-label="Hero background 3"></div>
-  <div class="hero-slide" style="background-image:url('img/fleetwood-coast.jpg')" role="img" aria-label="Hero background 4"></div>
-  <div class="hero-slide" style="background-image:url('img/sheffield-pub.jpg')" role="img" aria-label="Hero background 5"></div>
+  <img class="hero-bg" src="img/hero.jpg" alt="StoryRoutes hero">
   <div class="hero-content">
     <h1 data-i18n="heroTitle">Reis naar de plekken van de fascinerendste verhalen</h1>
     <p data-i18n="heroSub">Van underdog-sprookjes tot vergane voetbalglorie — beleef de verhalen op de plekken waar het echt gebeurde.</p>
@@ -327,13 +322,18 @@ document.getElementById('signup-form').addEventListener('submit',function(e){
 
 // HERO SLIDESHOW
 (function(){
-  const slides=document.querySelectorAll('.hero-slide');
+  const img=document.querySelector('.hero-bg');
+  const srcs=['img/hero.jpg','img/vardy-main.jpg','img/kps-matchday.jpg','img/fleetwood-coast.jpg','img/sheffield-pub.jpg'];
   let current=0;
   setInterval(function(){
-    slides[current].classList.remove('active');
-    current=(current+1)%slides.length;
-    slides[current].classList.add('active');
-  },4000);
+    current=(current+1)%srcs.length;
+    const next=new Image();
+    next.onload=function(){
+      img.style.opacity='0';
+      setTimeout(function(){img.src=srcs[current];img.style.opacity='1';},400);
+    };
+    next.src=srcs[current];
+  },5000);
 })();
 
 // INIT
