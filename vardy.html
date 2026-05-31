@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Vardy Story — StoryRoutes</title>
+<meta name="description" content="Van de fabrieksvloer naar de Premier League. Volg het ongelooflijke verhaal van Jamie Vardy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0F1B2D;--accent:#1E3A5F;--hover:#2A4F7A;--white:#FFFFFF;--bg:#FFFFFF;--card-border:#E5E7EB;--text:#0F1B2D;--text-sec:#6B7280;--badge-bg:#F3F4F6;--signup-bg:#F9FAFB}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.6}
+h1,h2,h3{font-family:'DM Sans',sans-serif;font-weight:700}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:var(--navy);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{color:var(--white);font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;letter-spacing:-.5px}
+.lang-toggle{display:flex;gap:4px;align-items:center;color:rgba(255,255,255,.7);font-size:.8rem}
+.lang-toggle button{background:none;border:none;color:rgba(255,255,255,.55);font-size:.8rem;cursor:pointer;padding:4px 6px;font-family:'Inter',sans-serif}
+.lang-toggle button.active{color:var(--white);font-weight:600}
+.lang-toggle span{color:rgba(255,255,255,.3)}
+
+/* BACK LINK */
+.back-bar{padding:14px 24px;background:var(--bg);border-bottom:1px solid var(--card-border)}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--accent);font-weight:500;transition:color .2s}
+.back-link:hover{color:var(--navy)}
+
+/* HERO COMPACT */
+.hero-compact{position:relative;height:200px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:url('img/vardy-main.jpg') center/cover no-repeat}
+.hero-compact::after{content:'';position:absolute;inset:0;background:rgba(15,27,45,.65)}
+.hero-compact .hero-inner{position:relative;z-index:2;color:var(--white);padding:0 24px}
+.hero-compact h1{font-size:clamp(1.4rem,4vw,2rem);margin-bottom:8px;line-height:1.25}
+.hero-compact p{font-size:clamp(.85rem,2vw,1rem);opacity:.85}
+
+/* ACT SECTIONS */
+.act-section{max-width:min(92vw,1100px);margin:0 auto;padding:48px 24px}
+.act-section:not(:last-of-type){border-bottom:1px solid var(--card-border)}
+.act-row{display:flex;gap:36px;align-items:flex-start}
+.act-row.reverse{flex-direction:row-reverse}
+.act-media{flex:0 0 48%;min-width:0}
+.act-text{flex:1;min-width:0}
+.act-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin-bottom:6px}
+.act-text h2{font-size:1.25rem;margin-bottom:14px;line-height:1.3}
+.act-text p{font-size:.95rem;color:var(--text-sec);line-height:1.7}
+
+@media(max-width:767px){
+  .act-row,.act-row.reverse{flex-direction:column}
+  .act-media{flex:none;width:100%}
+}
+
+/* ACT MINI-CAROUSEL */
+.act-carousel{position:relative;overflow:hidden;border:1px solid var(--card-border)}
+.act-carousel img{width:100%;aspect-ratio:16/10;object-fit:cover;display:none}
+.act-carousel img.active{display:block}
+.act-carousel .ac-arrow{position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;background:rgba(0,0,0,.45);color:#fff;border:none;cursor:pointer;font-size:14px;line-height:24px;text-align:center;padding:0;z-index:3;border-radius:2px;transition:background .2s}
+.act-carousel .ac-arrow:hover{background:rgba(0,0,0,.7)}
+.act-carousel .ac-arrow.ac-left{left:6px}
+.act-carousel .ac-arrow.ac-right{right:6px}
+.act-carousel .ac-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:3}
+.act-carousel .ac-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.45);display:block;transition:background .2s}
+.act-carousel .ac-dots span.active{background:#fff}
+
+/* CTA / SIGNUP */
+.signup{background:var(--signup-bg);padding:56px 24px;text-align:center}
+.signup h2{font-size:1.4rem;margin-bottom:8px}
+.signup .sub{color:var(--text-sec);font-size:.95rem;margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto}
+.signup-form{display:flex;gap:0;max-width:440px;margin:0 auto 12px}
+.signup-form input[type=email]{flex:1;padding:12px 16px;border:1px solid var(--card-border);font-size:.9rem;font-family:'Inter',sans-serif;outline:none;border-radius:0}
+.signup-form input[type=email]:focus{border-color:var(--accent)}
+.signup-form button{padding:12px 22px;background:var(--navy);color:var(--white);border:none;font-family:'Inter',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;transition:background .2s;white-space:nowrap;border-radius:0}
+.signup-form button:hover{background:var(--hover)}
+.privacy-note{font-size:.78rem;color:var(--text-sec)}
+.thank-you{display:none;padding:20px;color:var(--accent);font-weight:600;font-size:1rem}
+
+/* FOOTER */
+.footer{background:var(--navy);color:var(--white);padding:40px 24px;text-align:center}
+.footer-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.15rem;margin-bottom:6px}
+.footer-tagline{font-size:.85rem;opacity:.6;margin-bottom:20px}
+.footer-links{font-size:.8rem;opacity:.5;margin-bottom:16px}
+.footer-links a{color:var(--white);margin:0 8px}
+.footer-links a:hover{opacity:1}
+.footer-copy{font-size:.75rem;opacity:.35}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" role="navigation">
+  <a href="index.html" class="nav-logo">StoryRoutes</a>
+  <div class="lang-toggle">
+    <button id="lang-nl" class="active" onclick="setLang('nl')">NL</button>
+    <span>|</span>
+    <button id="lang-en" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- BACK -->
+<div class="back-bar">
+  <a href="index.html" class="back-link" data-i18n="backLink">&#8249; Terug naar overzicht</a>
+</div>
+
+<!-- HERO -->
+<section class="hero-compact">
+  <div class="hero-inner">
+    <h1 data-i18n="vardyTitle">The Vardy Story</h1>
+    <p data-i18n="vardySub">Van de fabrieksvloer naar de Premier League</p>
+  </div>
+</section>
+
+<!-- ACT 1: SHEFFIELD -->
+<section class="act-section">
+  <div class="act-row">
+    <div class="act-media">
+      <div class="act-carousel">
+        <button class="ac-arrow ac-left" onclick="acNav(this,-1)">&#8249;</button>
+        <img class="active" src="img/stocksbridge.jpg" alt="Stocksbridge" loading="lazy">
+        <img src="img/sheffield-pub.jpg" alt="Sheffield pub" loading="lazy">
+        <button class="ac-arrow ac-right" onclick="acNav(this,1)">&#8250;</button>
+        <div class="ac-dots"><span class="active"></span><span></span></div>
+      </div>
+    </div>
+    <div class="act-text">
+      <div class="act-label">Act 1</div>
+      <h2 data-i18n="act1Title">Sheffield — Waar het begon</h2>
+      <p data-i18n="act1Text">Vergeet de Premier League even. Hier, in de heuvels boven Sheffield, begint het echte verhaal. Stocksbridge Park Steels — een clubnaam die niemand kent, op een veld waar de modder tot je enkels komt. Jamie Vardy werkte overdag in een fabriek en speelde hier 's avonds onder flikkerende lampen. Na afloop: een biertje in de kantine, schouder aan schouder met je teamgenoten.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 2: FLEETWOOD -->
+<section class="act-section">
+  <div class="act-row reverse">
+    <div class="act-media">
+      <div class="act-carousel">
+        <button class="ac-arrow ac-left" onclick="acNav(this,-1)">&#8249;</button>
+        <img class="active" src="img/fleetwood-stadium.jpg" alt="Fleetwood Stadium" loading="lazy">
+        <img src="img/fleetwood-coast.jpg" alt="Fleetwood coast" loading="lazy">
+        <button class="ac-arrow ac-right" onclick="acNav(this,1)">&#8250;</button>
+        <div class="ac-dots"><span class="active"></span><span></span></div>
+      </div>
+    </div>
+    <div class="act-text">
+      <div class="act-label">Act 2</div>
+      <h2 data-i18n="act2Title">Fleetwood — De tussenstop die alles veranderde</h2>
+      <p data-i18n="act2Text">Een vissersplaatsje aan de kust van Lancashire. Fleetwood Town speelde nog maar net in het profvoetbal toen Jamie Vardy hier tekende. Highbury Stadium — een stadion waar je de zee kunt ruiken en waar de wind door de tribunes giert. Dit is het Engeland van de lagere divisies. Kleine stadions met karakter. Fans die elke week komen, ongeacht de stand. Fish and chips na de wedstrijd.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ACT 3: LEICESTER -->
+<section class="act-section">
+  <div class="act-row">
+    <div class="act-media">
+      <div class="act-carousel">
+        <button class="ac-arrow ac-left" onclick="acNav(this,-1)">&#8249;</button>
+        <img class="active" src="img/kps-exterior.jpg" alt="King Power exterior" loading="lazy">
+        <img src="img/kps-matchday.jpg" alt="King Power matchday" loading="lazy">
+        <img src="img/kps-interior.jpg" alt="King Power interior" loading="lazy">
+        <img src="img/vardy-trophy.jpg" alt="Vardy trophy" loading="lazy">
+        <button class="ac-arrow ac-right" onclick="acNav(this,1)">&#8250;</button>
+        <div class="ac-dots"><span class="active"></span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+    <div class="act-text">
+      <div class="act-label">Act 3</div>
+      <h2 data-i18n="act3Title">Leicester — Waar het sprookje werkelijkheid werd</h2>
+      <p data-i18n="act3Text">5000 tegen 1. Dat waren de odds dat Leicester City kampioen zou worden. Niemand geloofde het — behalve de spelers zelf. Jamie Vardy, de jongen van de fabrieksvloer, scoorde in elf opeenvolgende Premier League-wedstrijden en leidde zijn team naar het onmogelijke. Sta in het King Power Stadium. Voel de tribunes trillen. Loop door de straten waar een hele stad samensmolt in puur geluk.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+<section class="signup" id="signup">
+  <h2 data-i18n="signupTitle">Binnenkort beschikbaar</h2>
+  <p class="sub" data-i18n="signupSub">Laat je e-mail achter en we laten je als eerste weten wanneer je kunt boeken.</p>
+  <form class="signup-form" id="signup-form" action="https://formspree.io/f/placeholder" method="POST">
+    <input type="email" name="email" required placeholder="je@email.com" aria-label="Email">
+    <button type="submit" data-i18n="signupBtn">Houd mij op de hoogte</button>
+  </form>
+  <p class="privacy-note" data-i18n="noSpam">Geen spam, beloofd.</p>
+  <p class="thank-you" id="thank-you" data-i18n="thankYou">Bedankt! We houden je op de hoogte.</p>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">StoryRoutes</div>
+  <p class="footer-tagline" data-i18n="footerTagline">Reis naar de verhalen</p>
+  <div class="footer-links">
+    <a href="#" data-i18n="privacy">Privacy</a>
+    <a href="#" data-i18n="contact">Contact</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 StoryRoutes</p>
+</footer>
+
+<script>
+const T={
+  nl:{
+    vardyTitle:"The Vardy Story",
+    vardySub:"Van de fabrieksvloer naar de Premier League",
+    backLink:"\u2039 Terug naar overzicht",
+    act1Title:"Sheffield — Waar het begon",
+    act1Text:"Vergeet de Premier League even. Hier, in de heuvels boven Sheffield, begint het echte verhaal. Stocksbridge Park Steels — een clubnaam die niemand kent, op een veld waar de modder tot je enkels komt. Jamie Vardy werkte overdag in een fabriek en speelde hier \u2019s avonds onder flikkerende lampen. Na afloop: een biertje in de kantine, schouder aan schouder met je teamgenoten.",
+    act2Title:"Fleetwood — De tussenstop die alles veranderde",
+    act2Text:"Een vissersplaatsje aan de kust van Lancashire. Fleetwood Town speelde nog maar net in het profvoetbal toen Jamie Vardy hier tekende. Highbury Stadium — een stadion waar je de zee kunt ruiken en waar de wind door de tribunes giert. Dit is het Engeland van de lagere divisies. Kleine stadions met karakter. Fans die elke week komen, ongeacht de stand. Fish and chips na de wedstrijd.",
+    act3Title:"Leicester — Waar het sprookje werkelijkheid werd",
+    act3Text:"5000 tegen 1. Dat waren de odds dat Leicester City kampioen zou worden. Niemand geloofde het — behalve de spelers zelf. Jamie Vardy, de jongen van de fabrieksvloer, scoorde in elf opeenvolgende Premier League-wedstrijden en leidde zijn team naar het onmogelijke. Sta in het King Power Stadium. Voel de tribunes trillen. Loop door de straten waar een hele stad samensmolt in puur geluk.",
+    signupTitle:"Binnenkort beschikbaar",
+    signupSub:"Laat je e-mail achter en we laten je als eerste weten wanneer je kunt boeken.",
+    signupBtn:"Houd mij op de hoogte",
+    noSpam:"Geen spam, beloofd.",
+    thankYou:"Bedankt! We houden je op de hoogte.",
+    footerTagline:"Reis naar de verhalen",
+    privacy:"Privacy",contact:"Contact"
+  },
+  en:{
+    vardyTitle:"The Vardy Story",
+    vardySub:"From the factory floor to the Premier League",
+    backLink:"\u2039 Back to overview",
+    act1Title:"Sheffield — Where it all began",
+    act1Text:"Forget the Premier League for a moment. Here, in the hills above Sheffield, the real story begins. Stocksbridge Park Steels — a club name nobody knows, on a pitch where the mud reaches your ankles. Jamie Vardy worked in a factory by day and played here under flickering floodlights at night. Afterwards: a pint in the clubhouse, shoulder to shoulder with his teammates.",
+    act2Title:"Fleetwood — The stopover that changed everything",
+    act2Text:"A fishing town on the Lancashire coast. Fleetwood Town had barely entered professional football when Jamie Vardy signed here. Highbury Stadium — a ground where you can smell the sea and the wind howls through the stands. This is the England of the lower leagues. Small stadiums full of character. Fans who show up every week, regardless of the table. Fish and chips after the match.",
+    act3Title:"Leicester — Where the fairy tale became reality",
+    act3Text:"5000 to 1. Those were the odds of Leicester City winning the league. Nobody believed it — except the players themselves. Jamie Vardy, the boy from the factory floor, scored in eleven consecutive Premier League matches and led his team to the impossible. Stand inside the King Power Stadium. Feel the stands tremble. Walk through the streets where an entire city melted together in pure joy.",
+    signupTitle:"Coming soon",
+    signupSub:"Leave your email and we'll let you know first when you can book.",
+    signupBtn:"Keep me posted",
+    noSpam:"No spam, ever.",
+    thankYou:"Thanks! We'll keep you posted.",
+    footerTagline:"Travel to the stories",
+    privacy:"Privacy",contact:"Contact"
+  }
+};
+
+let lang=localStorage.getItem('sr-lang')||'nl';
+
+function setLang(l){
+  lang=l;
+  localStorage.setItem('sr-lang',l);
+  document.getElementById('lang-nl').classList.toggle('active',l==='nl');
+  document.getElementById('lang-en').classList.toggle('active',l==='en');
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(T[l][k])el.textContent=T[l][k];
+  });
+}
+
+// ACT MINI-CAROUSEL
+function acNav(btn, dir){
+  const wrap=btn.closest('.act-carousel');
+  const imgs=wrap.querySelectorAll('img');
+  const dots=wrap.querySelectorAll('.ac-dots span');
+  let cur=0;
+  imgs.forEach((img,i)=>{if(img.classList.contains('active'))cur=i;});
+  imgs[cur].classList.remove('active');
+  dots[cur].classList.remove('active');
+  cur=(cur+dir+imgs.length)%imgs.length;
+  imgs[cur].classList.add('active');
+  dots[cur].classList.add('active');
+}
+
+// FORM
+document.getElementById('signup-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  const fd=new FormData(this);
+  fetch(this.action,{method:'POST',body:fd,headers:{'Accept':'application/json'}})
+    .then(r=>{
+      if(r.ok){
+        this.style.display='none';
+        document.getElementById('thank-you').style.display='block';
+      }
+    }).catch(()=>{
+      this.style.display='none';
+      document.getElementById('thank-you').style.display='block';
+    });
+});
+
+// INIT
+setLang(lang);
+</script>
+</body>
+</html>
