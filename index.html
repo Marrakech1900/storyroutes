@@ -72,20 +72,6 @@ a{text-decoration:none;color:inherit}
 .btn-navy{display:inline-block;padding:12px 28px;background:var(--navy);color:var(--white);font-family:'Inter',sans-serif;font-weight:600;font-size:.9rem;border:none;cursor:pointer;transition:none;border-radius:8px}
 .btn-navy:hover{background:var(--hover)}
 
-/* SIGNUP */
-.signup{background:var(--signup-bg);padding:56px 24px;text-align:center}
-.signup h2{font-size:1.4rem;margin-bottom:8px}
-.signup .sub{color:var(--text-sec);font-size:.95rem;margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto}
-.signup-form{display:flex;gap:0;max-width:440px;margin:0 auto 12px}
-.signup-form input[type=email]{flex:1;padding:12px 16px;border:1px solid var(--card-border);font-size:.9rem;font-family:'Inter',sans-serif;outline:none;border-radius:8px 0 0 8px}
-.signup-form input[type=email]:focus{border-color:var(--accent)}
-.signup-form button{padding:12px 22px;background:var(--navy);color:var(--white);border:none;font-family:'Inter',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;transition:none;white-space:nowrap;border-radius:0 8px 8px 0}
-.signup-form button:hover{background:var(--hover)}
-.privacy-note{font-size:.78rem;color:var(--text-sec)}
-.thank-you{display:none;padding:20px;color:var(--accent);font-weight:600;font-size:1rem}
-.form-error{display:none;padding:8px 0 0;color:#DC2626;font-size:.85rem;font-weight:500}
-.signup-form button:disabled{opacity:.6;cursor:not-allowed}
-
 /* FOOTER */
 .footer{background:var(--navy);color:var(--white);padding:40px 24px;text-align:center}
 .footer-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.15rem;margin-bottom:6px}
@@ -180,20 +166,6 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
-<!-- SIGNUP -->
-<section class="signup" id="signup">
-  <h2 data-i18n="signupTitle">Binnenkort beschikbaar</h2>
-  <p class="sub" data-i18n="signupSub">Laat je e-mail achter en we laten je als eerste weten wanneer je kunt boeken.</p>
-  <form class="signup-form" id="signup-form">
-    <input type="email" name="email" required placeholder="je@email.com" aria-label="Email">
-    <input type="text" name="_gotcha" style="display:none">
-    <button type="submit" data-i18n="signupBtn">Houd mij op de hoogte</button>
-  </form>
-  <p class="form-error" id="form-error" data-i18n="formError">Er ging iets mis. Probeer het opnieuw.</p>
-  <p class="privacy-note" data-i18n="noSpam">Geen spam, beloofd.</p>
-  <p class="thank-you" id="thank-you" data-i18n="thankYou">Bedankt! We houden je op de hoogte.</p>
-</section>
-
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-logo">StoryTravels</div>
@@ -216,12 +188,6 @@ const T={
     giantsTitle:"Fallen Giants",giantsSub:"Een treinreis langs de gevallen grootmachten van het Engelse voetbal",
     moreRoutes:"Meer routes binnenkort",
     catComingSoon:"Deze categorie is binnenkort beschikbaar",
-    signupTitle:"Binnenkort beschikbaar",
-    signupSub:"Laat je e-mail achter en we laten je als eerste weten wanneer je kunt boeken.",
-    signupBtn:"Houd mij op de hoogte",
-    noSpam:"Geen spam, beloofd.",
-    thankYou:"Bedankt! We houden je op de hoogte.",
-    formError:"Er ging iets mis. Probeer het opnieuw.",
     footerTagline:"Reis naar de verhalen",
     privacy:"Privacy",contact:"Contact"
   },
@@ -234,12 +200,6 @@ const T={
     giantsTitle:"Fallen Giants",giantsSub:"A train journey through the fallen powerhouses of English football",
     moreRoutes:"More routes coming soon",
     catComingSoon:"This category is coming soon",
-    signupTitle:"Coming soon",
-    signupSub:"Leave your email and we'll let you know first when you can book.",
-    signupBtn:"Keep me posted",
-    noSpam:"No spam, ever.",
-    thankYou:"Thanks! We'll keep you posted.",
-    formError:"Something went wrong. Please try again.",
     footerTagline:"Travel to the stories",
     privacy:"Privacy",contact:"Contact"
   }
@@ -323,36 +283,6 @@ function ccNav(btn, dir){
     });
   });
 })();
-
-// FORM
-document.getElementById('signup-form').addEventListener('submit',function(e){
-  e.preventDefault();
-  var form=this;
-  var btn=form.querySelector('button[type="submit"]');
-  var errorEl=document.getElementById('form-error');
-  btn.disabled=true;
-  errorEl.style.display='none';
-  var email=form.querySelector('input[name="email"]').value;
-  var gotcha=form.querySelector('input[name="_gotcha"]').value;
-  fetch('https://formspree.io/f/xykvarwn',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Accept':'application/json'},
-    body:JSON.stringify({email:email,_gotcha:gotcha})
-  }).then(function(r){
-    if(r.ok){
-      form.style.display='none';
-      document.querySelector('.privacy-note').style.display='none';
-      errorEl.style.display='none';
-      document.getElementById('thank-you').style.display='block';
-    }else{
-      btn.disabled=false;
-      errorEl.style.display='block';
-    }
-  }).catch(function(){
-    btn.disabled=false;
-    errorEl.style.display='block';
-  });
-});
 
 // INIT
 setLang(lang);
