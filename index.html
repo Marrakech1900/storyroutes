@@ -83,6 +83,8 @@ a{text-decoration:none;color:inherit}
 .signup-form button:hover{background:var(--hover)}
 .privacy-note{font-size:.78rem;color:var(--text-sec)}
 .thank-you{display:none;padding:20px;color:var(--accent);font-weight:600;font-size:1rem}
+.form-error{display:none;padding:8px 0 0;color:#DC2626;font-size:.85rem;font-weight:500}
+.signup-form button:disabled{opacity:.6;cursor:not-allowed}
 
 /* FOOTER */
 .footer{background:var(--navy);color:var(--white);padding:40px 24px;text-align:center}
@@ -182,10 +184,12 @@ a{text-decoration:none;color:inherit}
 <section class="signup" id="signup">
   <h2 data-i18n="signupTitle">Binnenkort beschikbaar</h2>
   <p class="sub" data-i18n="signupSub">Laat je e-mail achter en we laten je als eerste weten wanneer je kunt boeken.</p>
-  <form class="signup-form" id="signup-form" action="https://formspree.io/f/placeholder" method="POST">
+  <form class="signup-form" id="signup-form">
     <input type="email" name="email" required placeholder="je@email.com" aria-label="Email">
+    <input type="text" name="_gotcha" style="display:none">
     <button type="submit" data-i18n="signupBtn">Houd mij op de hoogte</button>
   </form>
+  <p class="form-error" id="form-error" data-i18n="formError">Er ging iets mis. Probeer het opnieuw.</p>
   <p class="privacy-note" data-i18n="noSpam">Geen spam, beloofd.</p>
   <p class="thank-you" id="thank-you" data-i18n="thankYou">Bedankt! We houden je op de hoogte.</p>
 </section>
@@ -217,6 +221,7 @@ const T={
     signupBtn:"Houd mij op de hoogte",
     noSpam:"Geen spam, beloofd.",
     thankYou:"Bedankt! We houden je op de hoogte.",
+    formError:"Er ging iets mis. Probeer het opnieuw.",
     footerTagline:"Reis naar de verhalen",
     privacy:"Privacy",contact:"Contact"
   },
@@ -234,6 +239,7 @@ const T={
     signupBtn:"Keep me posted",
     noSpam:"No spam, ever.",
     thankYou:"Thanks! We'll keep you posted.",
+    formError:"Something went wrong. Please try again.",
     footerTagline:"Travel to the stories",
     privacy:"Privacy",contact:"Contact"
   }
@@ -321,17 +327,31 @@ function ccNav(btn, dir){
 // FORM
 document.getElementById('signup-form').addEventListener('submit',function(e){
   e.preventDefault();
-  var fd=new FormData(this);
-  fetch(this.action,{method:'POST',body:fd,headers:{'Accept':'application/json'}})
-    .then(function(r){
-      if(r.ok){
-        document.getElementById('signup-form').style.display='none';
-        document.getElementById('thank-you').style.display='block';
-      }
-    }).catch(function(){
-      document.getElementById('signup-form').style.display='none';
+  var form=this;
+  var btn=form.querySelector('button[type="submit"]');
+  var errorEl=document.getElementById('form-error');
+  btn.disabled=true;
+  errorEl.style.display='none';
+  var email=form.querySelector('input[name="email"]').value;
+  var gotcha=form.querySelector('input[name="_gotcha"]').value;
+  fetch('https://formspree.io/f/xykvarwn',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify({email:email,_gotcha:gotcha})
+  }).then(function(r){
+    if(r.ok){
+      form.style.display='none';
+      document.querySelector('.privacy-note').style.display='none';
+      errorEl.style.display='none';
       document.getElementById('thank-you').style.display='block';
-    });
+    }else{
+      btn.disabled=false;
+      errorEl.style.display='block';
+    }
+  }).catch(function(){
+    btn.disabled=false;
+    errorEl.style.display='block';
+  });
 });
 
 // INIT
