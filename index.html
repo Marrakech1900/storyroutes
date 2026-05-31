@@ -25,15 +25,16 @@ a{text-decoration:none;color:inherit}
 .lang-toggle span{color:rgba(255,255,255,.3)}
 
 /* HERO */
-.hero{position:relative;height:340px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('img/hero.jpg') center/cover no-repeat}
-.hero-bg::after{content:'';position:absolute;inset:0;background:rgba(15,27,45,.65)}
+.hero{position:relative;height:250px;max-height:250px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity 1.2s ease-in-out}
+.hero-slide.active{opacity:1}
+.hero-slide::after{content:'';position:absolute;inset:0;background:rgba(15,27,45,.65)}
 .hero-content{position:relative;z-index:2;max-width:680px;padding:0 24px;color:var(--white)}
 .hero-content h1{font-size:clamp(1.5rem,4vw,2.25rem);margin-bottom:12px;line-height:1.25}
 .hero-content p{font-size:clamp(.9rem,2vw,1.05rem);opacity:.88;line-height:1.55}
 
 /* TABS */
-.tabs-wrap{padding:28px 24px 0;max-width:960px;margin:0 auto}
+.tabs-wrap{padding:28px 24px 0;max-width:1200px;margin:0 auto}
 .tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
 .tab-btn{flex-shrink:0;padding:8px 20px;font-size:.85rem;font-family:'Inter',sans-serif;font-weight:500;border:1px solid var(--card-border);background:var(--white);color:var(--text);cursor:pointer;transition:all .2s;border-radius:0}
@@ -41,10 +42,11 @@ a{text-decoration:none;color:inherit}
 .tab-btn:hover:not(.active){border-color:var(--accent);color:var(--accent)}
 
 /* ROUTES SECTION */
-.routes-section{max-width:960px;margin:0 auto;padding:24px 24px 40px}
+.routes-section{max-width:1200px;margin:0 auto;padding:24px 24px 40px}
 .section-title{font-size:1.35rem;margin-bottom:20px}
 .routes-grid{display:grid;grid-template-columns:1fr;gap:20px}
-@media(min-width:640px){.routes-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:768px){.routes-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1025px){.routes-grid{grid-template-columns:1fr 1fr 1fr}}
 .coming-soon-msg{text-align:center;padding:60px 24px;color:var(--text-sec);font-size:1rem}
 .coming-soon-msg span{display:block;font-size:2rem;margin-bottom:8px}
 
@@ -130,7 +132,11 @@ a{text-decoration:none;color:inherit}
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg" role="img" aria-label="Hero background"></div>
+  <div class="hero-slide active" style="background-image:url('img/hero.jpg')" role="img" aria-label="Hero background 1"></div>
+  <div class="hero-slide" style="background-image:url('img/vardy-main.jpg')" role="img" aria-label="Hero background 2"></div>
+  <div class="hero-slide" style="background-image:url('img/kps-matchday.jpg')" role="img" aria-label="Hero background 3"></div>
+  <div class="hero-slide" style="background-image:url('img/fleetwood-coast.jpg')" role="img" aria-label="Hero background 4"></div>
+  <div class="hero-slide" style="background-image:url('img/sheffield-pub.jpg')" role="img" aria-label="Hero background 5"></div>
   <div class="hero-content">
     <h1 data-i18n="heroTitle">Reis naar de plekken van de fascinerendste verhalen</h1>
     <p data-i18n="heroSub">Van underdog-sprookjes tot vergane voetbalglorie — beleef de verhalen op de plekken waar het echt gebeurde.</p>
@@ -393,6 +399,17 @@ document.getElementById('signup-form').addEventListener('submit',function(e){
       document.getElementById('thank-you').style.display='block';
     });
 });
+
+// HERO SLIDESHOW
+(function(){
+  const slides=document.querySelectorAll('.hero-slide');
+  let current=0;
+  setInterval(function(){
+    slides[current].classList.remove('active');
+    current=(current+1)%slides.length;
+    slides[current].classList.add('active');
+  },4000);
+})();
 
 // INIT
 setLang(lang);
