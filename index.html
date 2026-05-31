@@ -26,7 +26,7 @@ a{text-decoration:none;color:inherit}
 
 /* HERO */
 .hero{position:relative;height:250px;max-height:250px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
-.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:opacity;transform:translateZ(0);transition:opacity .8s ease}
 .hero::after{content:'';position:absolute;inset:0;background:rgba(15,27,45,.65);z-index:1}
 .hero-content{position:relative;z-index:2;max-width:680px;padding:0 24px;color:var(--white)}
 .hero-content h1{font-size:clamp(1.5rem,4vw,2.25rem);margin-bottom:12px;line-height:1.25}
@@ -107,9 +107,9 @@ a{text-decoration:none;color:inherit}
   </div>
 </nav>
 
-<!-- HERO — static image, no slideshow -->
+<!-- HERO — single img with crossfade slideshow -->
 <section class="hero">
-  <img class="hero-bg" src="img/hero.jpg" alt="StoryRoutes">
+  <img class="hero-bg" src="img/hero.jpg" alt="StoryRoutes" decoding="async">
   <div class="hero-content">
     <h1 data-i18n="heroTitle">Reis naar de plekken van de fascinerendste verhalen</h1>
     <p data-i18n="heroSub">Van underdog-sprookjes tot vergane voetbalglorie — beleef de verhalen op de plekken waar het echt gebeurde.</p>
@@ -137,7 +137,7 @@ a{text-decoration:none;color:inherit}
       <article class="route-card" onclick="window.location.href='vardy.html'">
         <div class="card-carousel" data-srcs='["img/vardy-main.jpg","img/kps-matchday.jpg","img/stocksbridge.jpg","img/fleetwood-stadium.jpg","img/vardy-trophy.jpg"]'>
           <button class="cc-arrow cc-left" onclick="event.stopPropagation();ccNav(this,-1)">&#8249;</button>
-          <img src="img/vardy-main.jpg" alt="The Vardy Story">
+          <img src="img/vardy-main.jpg" alt="The Vardy Story" decoding="async" loading="lazy">
           <button class="cc-arrow cc-right" onclick="event.stopPropagation();ccNav(this,1)">&#8250;</button>
           <div class="cc-dots">
             <span class="active"></span><span></span><span></span><span></span><span></span>
@@ -153,7 +153,7 @@ a{text-decoration:none;color:inherit}
       <article class="route-card" onclick="window.location.href='giants.html'">
         <div class="card-carousel" data-srcs='["img/fg-cityground.jpg","img/fg-sunderland.jpg","img/fg-bolton.jpg","img/fg-train2.jpg","img/fg-historic.jpg"]'>
           <button class="cc-arrow cc-left" onclick="event.stopPropagation();ccNav(this,-1)">&#8249;</button>
-          <img src="img/fg-cityground.jpg" alt="Fallen Giants">
+          <img src="img/fg-cityground.jpg" alt="Fallen Giants" decoding="async" loading="lazy">
           <button class="cc-arrow cc-right" onclick="event.stopPropagation();ccNav(this,1)">&#8250;</button>
           <div class="cc-dots">
             <span class="active"></span><span></span><span></span><span></span><span></span>
@@ -270,6 +270,31 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
   });
 });
 
+// HERO SLIDESHOW — single img, preload-and-swap with crossfade
+(function(){
+  var heroSrcs=["img/hero.jpg","img/vardy-main.jpg","img/kps-matchday.jpg","img/fleetwood-coast.jpg","img/sheffield-pub.jpg"];
+  var heroImg=document.querySelector('.hero-bg');
+  if(!heroImg||heroSrcs.length<2)return;
+  var idx=0;
+  setInterval(function(){
+    var next=(idx+1)%heroSrcs.length;
+    // Preload the next image before swapping
+    var preload=new Image();
+    preload.onload=function(){
+      // Fade out
+      heroImg.style.opacity='0';
+      setTimeout(function(){
+        // Swap src while invisible
+        heroImg.src=heroSrcs[next];
+        // Fade in
+        heroImg.style.opacity='1';
+        idx=next;
+      },800); // match the CSS transition duration
+    };
+    preload.src=heroSrcs[next];
+  },5000);
+})();
+
 // CARD MINI-CAROUSEL — single img, src swap only
 function ccNav(btn, dir){
   var wrap=btn.closest('.card-carousel');
@@ -282,6 +307,17 @@ function ccNav(btn, dir){
   img.setAttribute('src',srcs[cur]);
   dots.forEach(function(d,i){d.classList.toggle('active',i===cur);});
 }
+
+// Preload all carousel images in JS (not DOM) on page load
+(function(){
+  document.querySelectorAll('.card-carousel[data-srcs]').forEach(function(wrap){
+    var srcs=JSON.parse(wrap.getAttribute('data-srcs'));
+    srcs.forEach(function(s){
+      var p=new Image();
+      p.src=s;
+    });
+  });
+})();
 
 // FORM
 document.getElementById('signup-form').addEventListener('submit',function(e){

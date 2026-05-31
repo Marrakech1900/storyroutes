@@ -52,16 +52,15 @@ a{text-decoration:none;color:inherit}
   .act-media{flex:none;width:100%}
 }
 
-/* ACT MINI-CAROUSEL */
+/* ACT MINI-CAROUSEL — single img with src swap */
 .act-carousel{position:relative;overflow:hidden;border:1px solid var(--card-border);border-radius:12px}
-.act-carousel img{width:100%;aspect-ratio:16/10;object-fit:cover;display:none;border-top-left-radius:12px;border-top-right-radius:12px}
-.act-carousel img.active{display:block}
+.act-carousel img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;border-top-left-radius:12px;border-top-right-radius:12px}
 .act-carousel .ac-arrow{position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;background:rgba(0,0,0,.45);color:#fff;border:none;cursor:pointer;font-size:14px;line-height:24px;text-align:center;padding:0;z-index:3;border-radius:50%;transition:background .2s}
 .act-carousel .ac-arrow:hover{background:rgba(0,0,0,.7)}
 .act-carousel .ac-arrow.ac-left{left:6px}
 .act-carousel .ac-arrow.ac-right{right:6px}
 .act-carousel .ac-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:3}
-.act-carousel .ac-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.45);display:block;transition:background .2s}
+.act-carousel .ac-dots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.45);display:block;cursor:pointer;transition:background .2s}
 .act-carousel .ac-dots span.active{background:#fff}
 
 /* CTA / SIGNUP */
@@ -115,10 +114,9 @@ a{text-decoration:none;color:inherit}
 <section class="act-section">
   <div class="act-row">
     <div class="act-media">
-      <div class="act-carousel">
+      <div class="act-carousel" data-srcs='["img/stocksbridge.jpg","img/sheffield-pub.jpg"]'>
         <button class="ac-arrow ac-left" onclick="acNav(this,-1)">&#8249;</button>
-        <img class="active" src="img/stocksbridge.jpg" alt="Stocksbridge" loading="lazy">
-        <img src="img/sheffield-pub.jpg" alt="Sheffield pub" loading="lazy">
+        <img src="img/stocksbridge.jpg" alt="Stocksbridge" decoding="async" loading="lazy">
         <button class="ac-arrow ac-right" onclick="acNav(this,1)">&#8250;</button>
         <div class="ac-dots"><span class="active"></span><span></span></div>
       </div>
@@ -135,10 +133,9 @@ a{text-decoration:none;color:inherit}
 <section class="act-section">
   <div class="act-row reverse">
     <div class="act-media">
-      <div class="act-carousel">
+      <div class="act-carousel" data-srcs='["img/fleetwood-stadium.jpg","img/fleetwood-coast.jpg"]'>
         <button class="ac-arrow ac-left" onclick="acNav(this,-1)">&#8249;</button>
-        <img class="active" src="img/fleetwood-stadium.jpg" alt="Fleetwood Stadium" loading="lazy">
-        <img src="img/fleetwood-coast.jpg" alt="Fleetwood coast" loading="lazy">
+        <img src="img/fleetwood-stadium.jpg" alt="Fleetwood Stadium" decoding="async" loading="lazy">
         <button class="ac-arrow ac-right" onclick="acNav(this,1)">&#8250;</button>
         <div class="ac-dots"><span class="active"></span><span></span></div>
       </div>
@@ -155,12 +152,9 @@ a{text-decoration:none;color:inherit}
 <section class="act-section">
   <div class="act-row">
     <div class="act-media">
-      <div class="act-carousel">
+      <div class="act-carousel" data-srcs='["img/kps-exterior.jpg","img/kps-matchday.jpg","img/kps-interior.jpg","img/vardy-trophy.jpg"]'>
         <button class="ac-arrow ac-left" onclick="acNav(this,-1)">&#8249;</button>
-        <img class="active" src="img/kps-exterior.jpg" alt="King Power exterior" loading="lazy">
-        <img src="img/kps-matchday.jpg" alt="King Power matchday" loading="lazy">
-        <img src="img/kps-interior.jpg" alt="King Power interior" loading="lazy">
-        <img src="img/vardy-trophy.jpg" alt="Vardy trophy" loading="lazy">
+        <img src="img/kps-exterior.jpg" alt="King Power exterior" decoding="async" loading="lazy">
         <button class="ac-arrow ac-right" onclick="acNav(this,1)">&#8250;</button>
         <div class="ac-dots"><span class="active"></span><span></span><span></span><span></span></div>
       </div>
@@ -250,19 +244,29 @@ function setLang(l){
   });
 }
 
-// ACT MINI-CAROUSEL
+// ACT MINI-CAROUSEL — single img, src swap (no display:none toggling)
 function acNav(btn, dir){
-  const wrap=btn.closest('.act-carousel');
-  const imgs=wrap.querySelectorAll('img');
-  const dots=wrap.querySelectorAll('.ac-dots span');
-  let cur=0;
-  imgs.forEach((img,i)=>{if(img.classList.contains('active'))cur=i;});
-  imgs[cur].classList.remove('active');
-  dots[cur].classList.remove('active');
-  cur=(cur+dir+imgs.length)%imgs.length;
-  imgs[cur].classList.add('active');
-  dots[cur].classList.add('active');
+  var wrap=btn.closest('.act-carousel');
+  var img=wrap.querySelector('img');
+  var srcs=JSON.parse(wrap.getAttribute('data-srcs'));
+  var dots=wrap.querySelectorAll('.ac-dots span');
+  var cur=srcs.indexOf(img.getAttribute('src'));
+  if(cur<0)cur=0;
+  cur=(cur+dir+srcs.length)%srcs.length;
+  img.setAttribute('src',srcs[cur]);
+  dots.forEach(function(d,i){d.classList.toggle('active',i===cur);});
 }
+
+// Preload all carousel images in JS (not DOM) on page load
+(function(){
+  document.querySelectorAll('.act-carousel[data-srcs]').forEach(function(wrap){
+    var srcs=JSON.parse(wrap.getAttribute('data-srcs'));
+    srcs.forEach(function(s){
+      var p=new Image();
+      p.src=s;
+    });
+  });
+})();
 
 // FORM
 document.getElementById('signup-form').addEventListener('submit',function(e){
