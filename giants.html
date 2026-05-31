@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fallen Giants — StoryRoutes</title>
+<meta name="description" content="Een treinreis langs de gevallen grootmachten van het Engelse voetbal. Van Nottingham Forest tot Sunderland.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0F1B2D;--accent:#1E3A5F;--hover:#2A4F7A;--white:#FFFFFF;--bg:#FFFFFF;--card-border:#E5E7EB;--text:#0F1B2D;--text-sec:#6B7280;--badge-bg:#F3F4F6;--signup-bg:#F9FAFB}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.6}
+h1,h2,h3{font-family:'DM Sans',sans-serif;font-weight:700}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:var(--navy);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{color:var(--white);font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;letter-spacing:-.5px}
+.lang-toggle{display:flex;gap:4px;align-items:center;color:rgba(255,255,255,.7);font-size:.8rem}
+.lang-toggle button{background:none;border:none;color:rgba(255,255,255,.55);font-size:.8rem;cursor:pointer;padding:4px 6px;font-family:'Inter',sans-serif}
+.lang-toggle button.active{color:var(--white);font-weight:600}
+.lang-toggle span{color:rgba(255,255,255,.3)}
+
+/* BACK LINK */
+.back-bar{padding:14px 24px;background:var(--bg);border-bottom:1px solid var(--card-border)}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:.88rem;color:var(--accent);font-weight:500;transition:color .2s}
+.back-link:hover{color:var(--navy)}
+
+/* HERO COMPACT */
+.hero-compact{position:relative;height:200px;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:url('img/fg-cityground.jpg') center/cover no-repeat}
+.hero-compact::after{content:'';position:absolute;inset:0;background:rgba(15,27,45,.65)}
+.hero-compact .hero-inner{position:relative;z-index:2;color:var(--white);padding:0 24px}
+.hero-compact h1{font-size:clamp(1.4rem,4vw,2rem);margin-bottom:8px;line-height:1.25}
+.hero-compact p{font-size:clamp(.85rem,2vw,1rem);opacity:.85}
+
+/* MAIN CONTENT */
+.content-section{max-width:min(92vw,1100px);margin:0 auto;padding:48px 24px}
+.intro-text{max-width:720px;margin:0 auto 48px}
+.intro-text p{font-size:.95rem;color:var(--text-sec);line-height:1.7;margin-bottom:16px}
+.intro-text p:last-child{margin-bottom:0}
+
+/* WHAT TO EXPECT */
+.expect-section{max-width:720px;margin:0 auto 48px;padding:32px;background:var(--signup-bg);border-radius:12px;border:1px solid var(--card-border)}
+.expect-section h2{font-size:1.2rem;margin-bottom:20px;text-align:center}
+.expect-list{list-style:none;display:flex;flex-direction:column;gap:14px}
+.expect-list li{display:flex;align-items:flex-start;gap:12px;font-size:.93rem;color:var(--text-sec);line-height:1.55}
+.expect-list li::before{content:'✓';flex-shrink:0;display:flex;align-items:center;justify-content:center;width:24px;height:24px;background:var(--navy);color:var(--white);border-radius:50%;font-size:.7rem;font-weight:700;margin-top:1px}
+
+/* PHOTO GRID */
+.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto}
+.photo-grid-item{overflow:hidden;border-radius:12px;border:1px solid var(--card-border)}
+.photo-grid-item img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.photo-grid-item .caption{padding:10px 14px;font-size:.82rem;color:var(--text-sec);background:var(--white)}
+
+@media(max-width:767px){
+  .photo-grid{grid-template-columns:1fr}
+}
+
+/* CTA */
+.cta-section{text-align:center;padding:48px 24px 0}
+.cta-section p{font-size:1.05rem;color:var(--text-sec);margin-bottom:20px;max-width:520px;margin-left:auto;margin-right:auto}
+.btn-navy{display:inline-block;padding:12px 28px;background:var(--navy);color:var(--white);font-family:'Inter',sans-serif;font-weight:600;font-size:.9rem;border:none;cursor:pointer;transition:background .2s;border-radius:8px}
+.btn-navy:hover{background:var(--hover)}
+
+/* SIGNUP */
+.signup{background:var(--signup-bg);padding:56px 24px;text-align:center}
+.signup h2{font-size:1.4rem;margin-bottom:8px}
+.signup .sub{color:var(--text-sec);font-size:.95rem;margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto}
+.signup-form{display:flex;gap:0;max-width:440px;margin:0 auto 12px}
+.signup-form input[type=email]{flex:1;padding:12px 16px;border:1px solid var(--card-border);font-size:.9rem;font-family:'Inter',sans-serif;outline:none;border-radius:8px 0 0 8px}
+.signup-form input[type=email]:focus{border-color:var(--accent)}
+.signup-form button{padding:12px 22px;background:var(--navy);color:var(--white);border:none;font-family:'Inter',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;transition:background .2s;white-space:nowrap;border-radius:0 8px 8px 0}
+.signup-form button:hover{background:var(--hover)}
+.privacy-note{font-size:.78rem;color:var(--text-sec)}
+.thank-you{display:none;padding:20px;color:var(--accent);font-weight:600;font-size:1rem}
+
+/* FOOTER */
+.footer{background:var(--navy);color:var(--white);padding:40px 24px;text-align:center}
+.footer-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.15rem;margin-bottom:6px}
+.footer-tagline{font-size:.85rem;opacity:.6;margin-bottom:20px}
+.footer-links{font-size:.8rem;opacity:.5;margin-bottom:16px}
+.footer-links a{color:var(--white);margin:0 8px}
+.footer-links a:hover{opacity:1}
+.footer-copy{font-size:.75rem;opacity:.35}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" role="navigation">
+  <a href="index.html" class="nav-logo">StoryRoutes</a>
+  <div class="lang-toggle">
+    <button id="lang-nl" class="active" onclick="setLang('nl')">NL</button>
+    <span>|</span>
+    <button id="lang-en" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- BACK -->
+<div class="back-bar">
+  <a href="index.html" class="back-link" data-i18n="backLink">&#8249; Terug naar routes</a>
+</div>
+
+<!-- HERO -->
+<section class="hero-compact">
+  <div class="hero-inner">
+    <h1 data-i18n="giantsTitle">Fallen Giants</h1>
+    <p data-i18n="giantsSub">Een treinreis langs de gevallen grootmachten van het Engelse voetbal</p>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<section class="content-section">
+
+  <!-- Intro -->
+  <div class="intro-text">
+    <p data-i18n="introP1">Nottingham Forest won twee keer de Champions League. Blackburn werd kampioen van Engeland. Bolton speelde Europees voetbal met wereldsterren. Sunderland vulde wekelijks 49.000 stoelen.</p>
+    <p data-i18n="introP2">Nu? Lagere divisies. Kleinere budgetten. Maar overal brandt het vuur nog.</p>
+    <p data-i18n="introP3">Deze reis brengt je per trein door het hart van industrieel Engeland. Je bezoekt clubs als Nottingham Forest, Blackburn Rovers, Bolton Wanderers, Sunderland en Oldham Athletic. Je woont wedstrijden bij, loopt door legendarische stadions, bezoekt musea en ontdekt de verhalen achter de tribunes.</p>
+    <p data-i18n="introP4">Ervaar het Engelse voetbal zoals het echt is — van de Championship tot de League Two. Sta op tribunes waar ooit Europese finales werden gevierd. Ontdek hoe de geschiedenis van deze clubs verweven is met de steden en regio's waar ze thuishoren.</p>
+  </div>
+
+  <!-- What to expect -->
+  <div class="expect-section">
+    <h2 data-i18n="expectTitle">Wat kun je verwachten?</h2>
+    <ul class="expect-list">
+      <li data-i18n="expect1">De geschiedenis van clubs die ooit tot de absolute wereldtop behoorden</li>
+      <li data-i18n="expect2">Het Engelse voetbal ervaren op verschillende niveaus — van Championship tot League Two</li>
+      <li data-i18n="expect3">Stadiontours en clubmusea vol verhalen</li>
+      <li data-i18n="expect4">Per trein reizen door de verschillende regio's van Engeland</li>
+      <li data-i18n="expect5">De voetbalcultuur van Engelse industriesteden</li>
+    </ul>
+  </div>
+
+  <!-- Photo Grid -->
+  <div class="photo-grid">
+    <div class="photo-grid-item">
+      <img src="img/fg-cityground.jpg" alt="City Ground, Nottingham" loading="lazy">
+      <div class="caption" data-i18n="capCityground">City Ground, Nottingham</div>
+    </div>
+    <div class="photo-grid-item">
+      <img src="img/fg-sunderland.jpg" alt="Stadium of Light, Sunderland" loading="lazy">
+      <div class="caption" data-i18n="capSunderland">Stadium of Light, Sunderland</div>
+    </div>
+    <div class="photo-grid-item">
+      <img src="img/fg-bolton.jpg" alt="Bolton Wanderers" loading="lazy">
+      <div class="caption" data-i18n="capBolton">Bolton Wanderers wedstrijd</div>
+    </div>
+    <div class="photo-grid-item">
+      <img src="img/fg-train2.jpg" alt="Per trein door Engeland" loading="lazy">
+      <div class="caption" data-i18n="capTrain">Per trein door Engeland</div>
+    </div>
+    <div class="photo-grid-item">
+      <img src="img/fg-historic.jpg" alt="Sunderland FA Cup" loading="lazy">
+      <div class="caption" data-i18n="capHistoric">Sunderland FA Cup winnaars, 1937</div>
+    </div>
+    <div class="photo-grid-item">
+      <img src="img/fg-forest-plaque.jpg" alt="Nottingham Forest plaque" loading="lazy">
+      <div class="caption" data-i18n="capPlaque">Oprichtingsplaquette Nottingham Forest</div>
+    </div>
+    <div class="photo-grid-item">
+      <img src="img/fg-museum.jpg" alt="National Football Museum" loading="lazy">
+      <div class="caption" data-i18n="capMuseum">National Football Museum</div>
+    </div>
+    <div class="photo-grid-item">
+      <img src="img/fg-town.jpg" alt="Lancashire mill town" loading="lazy">
+      <div class="caption" data-i18n="capTown">Lancashire industriestad</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <p data-i18n="ctaText">Wordt als eerste op de hoogte gebracht als deze reis beschikbaar is</p>
+    <a href="#signup" class="btn-navy" data-i18n="signupBtn">Houd mij op de hoogte</a>
+  </div>
+
+</section>
+
+<!-- SIGNUP -->
+<section class="signup" id="signup">
+  <h2 data-i18n="signupTitle">Binnenkort beschikbaar</h2>
+  <p class="sub" data-i18n="signupSub">Laat je e-mail achter en we laten je als eerste weten wanneer je kunt boeken.</p>
+  <form class="signup-form" id="signup-form" action="https://formspree.io/f/placeholder" method="POST">
+    <input type="email" name="email" required placeholder="je@email.com" aria-label="Email">
+    <button type="submit" data-i18n="signupBtn">Houd mij op de hoogte</button>
+  </form>
+  <p class="privacy-note" data-i18n="noSpam">Geen spam, beloofd.</p>
+  <p class="thank-you" id="thank-you" data-i18n="thankYou">Bedankt! We houden je op de hoogte.</p>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">StoryRoutes</div>
+  <p class="footer-tagline" data-i18n="footerTagline">Reis naar de verhalen</p>
+  <div class="footer-links">
+    <a href="#" data-i18n="privacy">Privacy</a>
+    <a href="#" data-i18n="contact">Contact</a>
+  </div>
+  <p class="footer-copy">&copy; 2026 StoryRoutes</p>
+</footer>
+
+<script>
+const T={
+  nl:{
+    giantsTitle:"Fallen Giants",
+    giantsSub:"Een treinreis langs de gevallen grootmachten van het Engelse voetbal",
+    backLink:"\u2039 Terug naar routes",
+    introP1:"Nottingham Forest won twee keer de Champions League. Blackburn werd kampioen van Engeland. Bolton speelde Europees voetbal met wereldsterren. Sunderland vulde wekelijks 49.000 stoelen.",
+    introP2:"Nu? Lagere divisies. Kleinere budgetten. Maar overal brandt het vuur nog.",
+    introP3:"Deze reis brengt je per trein door het hart van industrieel Engeland. Je bezoekt clubs als Nottingham Forest, Blackburn Rovers, Bolton Wanderers, Sunderland en Oldham Athletic. Je woont wedstrijden bij, loopt door legendarische stadions, bezoekt musea en ontdekt de verhalen achter de tribunes.",
+    introP4:"Ervaar het Engelse voetbal zoals het echt is \u2014 van de Championship tot de League Two. Sta op tribunes waar ooit Europese finales werden gevierd. Ontdek hoe de geschiedenis van deze clubs verweven is met de steden en regio\u2019s waar ze thuishoren.",
+    expectTitle:"Wat kun je verwachten?",
+    expect1:"De geschiedenis van clubs die ooit tot de absolute wereldtop behoorden",
+    expect2:"Het Engelse voetbal ervaren op verschillende niveaus \u2014 van Championship tot League Two",
+    expect3:"Stadiontours en clubmusea vol verhalen",
+    expect4:"Per trein reizen door de verschillende regio\u2019s van Engeland",
+    expect5:"De voetbalcultuur van Engelse industriesteden",
+    capCityground:"City Ground, Nottingham",
+    capSunderland:"Stadium of Light, Sunderland",
+    capBolton:"Bolton Wanderers wedstrijd",
+    capTrain:"Per trein door Engeland",
+    capHistoric:"Sunderland FA Cup winnaars, 1937",
+    capPlaque:"Oprichtingsplaquette Nottingham Forest",
+    capMuseum:"National Football Museum",
+    capTown:"Lancashire industriestad",
+    ctaText:"Wordt als eerste op de hoogte gebracht als deze reis beschikbaar is",
+    signupTitle:"Binnenkort beschikbaar",
+    signupSub:"Laat je e-mail achter en we laten je als eerste weten wanneer je kunt boeken.",
+    signupBtn:"Houd mij op de hoogte",
+    noSpam:"Geen spam, beloofd.",
+    thankYou:"Bedankt! We houden je op de hoogte.",
+    footerTagline:"Reis naar de verhalen",
+    privacy:"Privacy",contact:"Contact"
+  },
+  en:{
+    giantsTitle:"Fallen Giants",
+    giantsSub:"A train journey through the fallen powerhouses of English football",
+    backLink:"\u2039 Back to routes",
+    introP1:"Nottingham Forest won the Champions League twice. Blackburn were champions of England. Bolton played European football with world-class stars. Sunderland filled 49,000 seats every week.",
+    introP2:"Now? Lower divisions. Smaller budgets. But everywhere, the fire still burns.",
+    introP3:"This trip takes you by train through the heart of industrial England. Visit clubs like Nottingham Forest, Blackburn Rovers, Bolton Wanderers, Sunderland and Oldham Athletic. Attend matches, walk through legendary stadiums, visit museums and discover the stories behind the stands.",
+    introP4:"Experience English football as it really is \u2014 from the Championship to League Two. Stand on the terraces where European finals were once celebrated. Discover how the history of these clubs is woven into the cities and regions they call home.",
+    expectTitle:"What to expect",
+    expect1:"The history of clubs that once belonged to the absolute world elite",
+    expect2:"Experience English football at different levels \u2014 from Championship to League Two",
+    expect3:"Stadium tours and club museums full of stories",
+    expect4:"Travel by train through England\u2019s different regions",
+    expect5:"The football culture of English industrial towns",
+    capCityground:"City Ground, Nottingham",
+    capSunderland:"Stadium of Light, Sunderland",
+    capBolton:"Bolton Wanderers match",
+    capTrain:"By train through England",
+    capHistoric:"Sunderland FA Cup winners, 1937",
+    capPlaque:"Nottingham Forest founding plaque",
+    capMuseum:"National Football Museum",
+    capTown:"Lancashire mill town",
+    ctaText:"Be the first to know when this trip becomes available",
+    signupTitle:"Coming soon",
+    signupSub:"Leave your email and we'll let you know first when you can book.",
+    signupBtn:"Keep me posted",
+    noSpam:"No spam, ever.",
+    thankYou:"Thanks! We'll keep you posted.",
+    footerTagline:"Travel to the stories",
+    privacy:"Privacy",contact:"Contact"
+  }
+};
+
+let lang=localStorage.getItem('sr-lang')||'nl';
+
+function setLang(l){
+  lang=l;
+  localStorage.setItem('sr-lang',l);
+  document.getElementById('lang-nl').classList.toggle('active',l==='nl');
+  document.getElementById('lang-en').classList.toggle('active',l==='en');
+  document.documentElement.lang=l;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(T[l][k])el.textContent=T[l][k];
+  });
+}
+
+// FORM
+document.getElementById('signup-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  const fd=new FormData(this);
+  fetch(this.action,{method:'POST',body:fd,headers:{'Accept':'application/json'}})
+    .then(r=>{
+      if(r.ok){
+        this.style.display='none';
+        document.getElementById('thank-you').style.display='block';
+      }
+    }).catch(()=>{
+      this.style.display='none';
+      document.getElementById('thank-you').style.display='block';
+    });
+});
+
+// INIT
+setLang(lang);
+</script>
+</body>
+</html>

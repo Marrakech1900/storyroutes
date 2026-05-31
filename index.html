@@ -165,23 +165,22 @@ a{text-decoration:none;color:inherit}
         </div>
       </article>
       <!-- Card 2: Fallen Giants -->
-      <article class="route-card">
-        <div class="card-overlay">
-          <div class="card-carousel" data-images='["img/kps-interior.jpg","img/kps-exterior.jpg","img/fleetwood-coast.jpg"]'>
-            <button class="cc-arrow cc-left" onclick="event.stopPropagation();ccNav(this,-1)">&#8249;</button>
-            <img class="active" src="img/kps-interior.jpg" alt="Fallen Giants" loading="lazy">
-            <img src="img/kps-exterior.jpg" alt="Fallen Giants" loading="lazy">
-            <img src="img/fleetwood-coast.jpg" alt="Fallen Giants" loading="lazy">
-            <button class="cc-arrow cc-right" onclick="event.stopPropagation();ccNav(this,1)">&#8250;</button>
-            <div class="cc-dots">
-              <span class="active"></span><span></span><span></span>
-            </div>
+      <article class="route-card" id="giants-card" onclick="window.location.href='giants.html'">
+        <div class="card-carousel" data-images='["img/fg-cityground.jpg","img/fg-sunderland.jpg","img/fg-bolton.jpg","img/fg-train2.jpg","img/fg-historic.jpg"]'>
+          <button class="cc-arrow cc-left" onclick="event.stopPropagation();ccNav(this,-1)">&#8249;</button>
+          <img class="active" src="img/fg-cityground.jpg" alt="Fallen Giants" loading="lazy">
+          <img src="img/fg-sunderland.jpg" alt="Fallen Giants" loading="lazy">
+          <img src="img/fg-bolton.jpg" alt="Fallen Giants" loading="lazy">
+          <img src="img/fg-train2.jpg" alt="Fallen Giants" loading="lazy">
+          <img src="img/fg-historic.jpg" alt="Fallen Giants" loading="lazy">
+          <button class="cc-arrow cc-right" onclick="event.stopPropagation();ccNav(this,1)">&#8250;</button>
+          <div class="cc-dots">
+            <span class="active"></span><span></span><span></span><span></span><span></span>
           </div>
-          <span class="overlay-label" data-i18n="comingSoon">Binnenkort</span>
         </div>
         <div class="route-card-body">
           <h3 data-i18n="giantsTitle">Fallen Giants</h3>
-          <p data-i18n="giantsSub">Vergane glorie van het Engelse voetbal</p>
+          <p data-i18n="giantsSub">Een treinreis langs de gevallen grootmachten van het Engelse voetbal</p>
           <span class="badge" data-i18n="tabFootball">Voetbal</span>
         </div>
       </article>
@@ -236,7 +235,7 @@ const T={
     tabFootball:"Voetbal",tabMovies:"Films",tabCelebs:"Celebrities",tabCrime:"Crime",tabHistory:"Geschiedenis",tabAll:"Alles",
     popularRoutes:"Populaire Routes",
     vardyTitle:"The Vardy Story",vardySub:"Van de fabrieksvloer naar de Premier League",
-    giantsTitle:"Fallen Giants",giantsSub:"Vergane glorie van het Engelse voetbal",
+    giantsTitle:"Fallen Giants",giantsSub:"Een treinreis langs de gevallen grootmachten van het Engelse voetbal",
     comingSoon:"Binnenkort",moreRoutes:"Meer routes binnenkort",
     catComingSoon:"Deze categorie is binnenkort beschikbaar",
     signupTitle:"Binnenkort beschikbaar",
@@ -253,7 +252,7 @@ const T={
     tabFootball:"Football",tabMovies:"Movies",tabCelebs:"Celebrities",tabCrime:"Crime",tabHistory:"History",tabAll:"All",
     popularRoutes:"Popular Routes",
     vardyTitle:"The Vardy Story",vardySub:"From the factory floor to the Premier League",
-    giantsTitle:"Fallen Giants",giantsSub:"Faded glory of English football",
+    giantsTitle:"Fallen Giants",giantsSub:"A train journey through the fallen powerhouses of English football",
     comingSoon:"Coming soon",moreRoutes:"More routes coming soon",
     catComingSoon:"This category is coming soon",
     signupTitle:"Coming soon",
